@@ -30,7 +30,7 @@ const titleClickHandler = function (event) {
 
     /* [DONE] get 'href' attribute from the clicked link */
 
-    const articleSelector = clickedElement.getAttribute("href");
+    const articleSelector = clickedElement.getAttribute('href');
     console.log(articleSelector);
 
     /* [DONE] find the correct article using the selector (value of 'href' attribute) */
@@ -60,19 +60,27 @@ for (let link of links) {
 
         const titleList = document.querySelector(optTitleListSelector)
         titleList.innerHTML = '';
-        
 
         /* for each article */
 
+        const articles = document.querySelectorAll(optArticleSelector)
+        for (let article of articles) {
+
+        
         /* get the article id */
 
+        const articleId = article.getAttribute('id');
+
         /* find the title element */
+
+
 
         /* get the title from the title element */
 
         /* create HTML of the link */
 
         /* insert link into titleList */
+        }
 
     }
 
