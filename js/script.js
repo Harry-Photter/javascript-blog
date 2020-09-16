@@ -64,6 +64,8 @@ for (let link of links) {
         /* for each article */
 
         const articles = document.querySelectorAll(optArticleSelector)
+
+        let html='';
         
         for (let article of articles) {
 
@@ -87,11 +89,15 @@ for (let link of links) {
 
             /* insert link into titleList */
 
-            titleList.insertAdjacentHTML('afterbegin', linkHTML);
+            // titleList.insertAdjacentHTML('afterbegin', linkHTML);
 
             /* insert link into html variable */
+
+            html = html + linkHTML;
+            console.log(html);
         }
 
+        titleList.innerHTML = html;  
     }
 
     generateTitleLinks();
