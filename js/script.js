@@ -64,22 +64,32 @@ for (let link of links) {
         /* for each article */
 
         const articles = document.querySelectorAll(optArticleSelector)
+        
         for (let article of articles) {
 
-        
-        /* get the article id */
 
-        const articleId = article.getAttribute('id');
+            /* get the article id */
 
-        /* find the title element */
+            const articleId = article.getAttribute('id');
 
 
+            /* find the title element */
 
-        /* get the title from the title element */
+            const articleTitle = article.querySelector(optTitleSelector).innerHTML;
 
-        /* create HTML of the link */
 
-        /* insert link into titleList */
+            /* get the title from the title element */
+
+            /* create HTML of the link */
+
+            const linkHTML = '<li><a href="#' + articleId + '"><span>' + articleTitle + '</span></a></li>';
+            console.log(linkHTML);
+
+            /* insert link into titleList */
+
+            titleList.insertAdjacentHTML('afterbegin', linkHTML);
+
+            /* insert link into html variable */
         }
 
     }
