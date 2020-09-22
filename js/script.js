@@ -4,7 +4,7 @@ const titleClickHandler = function (event) {
   event.preventDefault();
   console.log('Link was clicked!');
   const clickedElement = this;
-  console.log(event);
+
 
 
   /* [DONE] remove class 'active' from all article links  */
@@ -77,6 +77,7 @@ const optArticleSelector = '.post',
       /* find the title element */
 
       const articleTitle = article.querySelector(optTitleSelector).innerHTML;
+      console.log(articleTitle);
 
 
       /* get the title from the title element */
@@ -110,33 +111,68 @@ const optArticleSelector = '.post',
   generateTitleLinks();
 }
 
-{
-  function generateTags() {
-    
-    /* find all articles */
 
-    /* START LOOP: for every article: */
+function generateTags() {
+
+  /* find all articles */
+
+  const articles = document.querySelectorAll(optArticleSelector);
+
+  /* START LOOP: for every article: */
+
+  for (let article of articles) {
 
     /* find tags wrapper */
 
+    const tagList = article.querySelector(optArticleTagsSelector);
+
     /* make html variable with empty string */
+
+    let html = '';
 
     /* get tags from data-tags attribute */
 
+    const articleTags = article.getAttribute('data-tags');
+    console.log(articleTags);
+
     /* split tags into array */
+
+    const articleTagsArray = articleTags.split(' ');
+    console.log(articleTagsArray);
 
     /* START LOOP: for each tag */
 
-    /* generate HTML of the link */
+    for(let tag of articleTagsArray){
+      console.log(tag);
 
-    /* add generated code to html variable */
+      /* generate HTML of the link */
 
-    /* END LOOP: for each tag */
+      const linkHTML = '<li><a href="#tag-' + tag + '"><span>' + tag + '</span></a></li>';
+      console.log(linkHTML);
 
+      /* add generated code to HTML variable */
+
+      html = html + linkHTML;
+      console.log(html);
+
+      /* END LOOP: for each tag */
+    }
+
+  
     /* insert HTML of all the links into the tags wrapper */
+
+    tagList.innerHTML = html;
+
+    const links = document.querySelectorAll('.titles a');
+
+    for (let link of links) {
+      link.addEventListener('click', titleClickHandler);
+
+      console.log(links);
+    }
 
     /* END LOOP: for every article: */
   }
-
-  generateTags();
 }
+
+generateTags();
