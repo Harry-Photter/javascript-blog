@@ -1,6 +1,16 @@
 'use strict';
 
-const titleClickHandler = function (event) {
+const optArticleSelector = '.post',
+  optTitleSelector = '.post-title',
+  optTitleListSelector = '.titles',
+  optArticleTagsSelector = '.post-tags .list',
+  optArticleAuthorSelector = '.post-author',
+  optTagsListSelector = '.tags.list',
+  optCloudClassCount = '5',
+  optCloudClassPrefix = '.tag-size-';
+
+
+function titleClickHandler(event) {
   event.preventDefault();
   console.log('Link was clicked!');
   const clickedElement = this;
@@ -17,8 +27,8 @@ const titleClickHandler = function (event) {
 
   /* [DONE] add class 'active' to the clicked link */
 
-  console.log('clickedElement:', clickedElement);
   clickedElement.classList.add('active');
+  console.log('clickedElement:', clickedElement);
 
   /* [DONE] remove class 'active' from all articles */
 
@@ -42,17 +52,7 @@ const titleClickHandler = function (event) {
 
   targetArticle.classList.add('active');
 
-
-};
-
-
-const optArticleSelector = '.post',
-  optTitleSelector = '.post-title',
-  optTitleListSelector = '.titles',
-  optArticleTagsSelector = '.post-tags .list',
-  optArticleAuthorSelector = '.post-author',
-  optTagsListSelector = '.tags.list';
-
+}
 
 
 function generateTitleLinks(customSelector = '') {
@@ -71,19 +71,15 @@ function generateTitleLinks(customSelector = '') {
 
   for (let article of articles) {
 
-
     /* get the article id */
 
     const articleId = article.getAttribute('id');
 
-
     /* find the title element */
+    /* get the title from the title element */
 
     const articleTitle = article.querySelector(optTitleSelector).innerHTML;
     console.log(articleTitle);
-
-
-    /* get the title from the title element */
 
     /* create HTML of the link */
 
@@ -113,12 +109,29 @@ function generateTitleLinks(customSelector = '') {
 
 generateTitleLinks();
 
+function calculateTagsParams(tags) {
+  const params = { max: 0, min: 999999 };
+  for (let tag in tags) {
+    if (tags[tag] > params.max) {
+      params.max = tags[tag];
+    }
+    if (tags[tag] < params.min) {
+      params.min = tags[tag];
+    }
+    console.log(tag + ' is used ' + tags[tag] + ' times');
+  }
+  console.log('params:', params);
+  return params;
+}
 
+function calculateTagClass(count, params){
+
+}
 
 function generateTags() {
 
-  /* [NEW] create a new variable allTags with an empty array */
-  let allTags = [];
+  /* [NEW] create a new variable allTags with an empty array(object) */
+  let allTags = {};
 
   /* find all articles */
 
@@ -162,9 +175,12 @@ function generateTags() {
       console.log(html);
 
       /* [NEW] check if this link is NOT already in allTags */
-      if(allTags.indexOf(linkHTML) == -1){
-        /* [NEW] add generated code to allTags array */
-        allTags.push(linkHTML);
+      if (!allTags[tag]) {
+        /* [NEW] add tag to allTags object */
+        allTags[tag] = 1;
+      }
+      else {
+        allTags[tag]++;
       }
 
       /* END LOOP: for each tag */
@@ -186,11 +202,24 @@ function generateTags() {
     /* END LOOP: for every article: */
   }
 
-    /* [NEW] find list of tags in right column */
-    const tagList = document.querySelector('.tags');
+  /* [NEW] find list of tags in right column */
+  const tagList = document.querySelector('.tags');
 
-    /* [NEW] add html from allTags to tagList */
-    tagList.innerHTML = allTags.join(' ');
+
+  /* [NEW] create variable for all links HTML code */
+  let allTagsHTML = '';
+
+  /* [NEW] START LOOP: for each tag in allTags: */
+  for (let tag in allTags) {
+    /* [NEW] generate code of a link and add it to allTagsHTML */
+    allTagsHTML += '<li><a class="calculateTagClass" href="#tag-' + tag + '">' + tag + ' (' + allTags[tag] + ')</a></li>';
+    console.log(allTagsHTML);
+  }
+  /* [NEW] END LOOP: for each tag in allTags: */
+  const tagLinkHTML = calculateTagClass(allTags[tag], tagsParams);
+  console.log('tagLinkHTML:', tagLinkHTML);
+  /*[NEW] add HTML from allTagsHTML to tagList */
+  tagList.innerHTML = allTagsHTML;
 }
 
 generateTags();
